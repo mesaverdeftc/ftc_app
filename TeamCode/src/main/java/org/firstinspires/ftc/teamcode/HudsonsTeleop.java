@@ -35,6 +35,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
@@ -52,7 +53,7 @@ import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="Hudson Teleop", group="Iterative Opmode")
 // @Disabled
-public class BasicOpMode_Iterative extends OpMode
+public class HudsonsTeleop extends OpMode
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -60,6 +61,11 @@ public class BasicOpMode_Iterative extends OpMode
     private DcMotor leftRearDrive = null;
     private DcMotor rightFrontDrive = null;
     private DcMotor rightRearDrive = null;
+    private Servo servo1 = null;
+    private Servo servo2 = null;
+    private Servo servo3 = null;
+    private int interations = 1;
+
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -75,6 +81,9 @@ public class BasicOpMode_Iterative extends OpMode
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         leftRearDrive  = hardwareMap.get(DcMotor.class, "left_rear_drive");
         rightRearDrive = hardwareMap.get(DcMotor.class, "right_rear_drive");
+        servo1 = hardwareMap.get(Servo.class, "block_servo1");
+        servo2 = hardwareMap.get(Servo.class, "block_servo2");
+        servo3 = hardwareMap.get(Servo.class, "block_servo3");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -112,6 +121,38 @@ public class BasicOpMode_Iterative extends OpMode
         double rightFrontPower;
         double leftRearPower;
         double rightRearPower;
+        boolean button_Y;
+        boolean button_A;
+        boolean button_B;
+
+
+
+        button_Y = gamepad1.y;
+        button_A = gamepad1.a;
+        button_B = gamepad1.b;
+
+
+            if(button_Y) {
+                servo1.setPosition(1.0);
+            }
+            if(button_A) {
+                servo1.setPosition(-1.0);
+            }
+
+            if(button_B) {
+                if((interations % 2) == 0) {
+                    servo2.setPosition(1.0);
+                    servo3.setPosition(1.0);
+                } else {
+                    servo2.setPosition(-1.0);
+                    servo3.setPosition(-1.0);
+                }
+                interations += 1;
+            }
+
+
+
+
 
         // Choose to drive using either Tank Mode, or POV Mode
         // Comment out the method that's not used.  The default below is POV.
@@ -129,6 +170,8 @@ public class BasicOpMode_Iterative extends OpMode
         rightFrontPower  = Range.clip(left_y - right_x - left_x, -1.0, 1.0) ;
         leftRearPower    = Range.clip(left_y + right_x - left_x, -1.0, 1.0) ;
         rightRearPower   = Range.clip(left_y - right_x + left_x, -1.0, 1.0) ;
+
+
 
         // Tank Mode uses one stick to control each wheel.
         // - This requires no math, but it is hard to drive forward slowly and keep straight.
@@ -151,6 +194,7 @@ public class BasicOpMode_Iterative extends OpMode
      */
     @Override
     public void stop() {
+        }
     }
 
-}
+
