@@ -63,7 +63,9 @@ public class TylersTeleop extends OpMode
     private DcMotor rightFrontDrive = null;
     private DcMotor rightRearDrive = null;
     private Servo   servo = null;
-
+    private double previousTime = 0.0;
+    private double loopsPerSecond = 0.0;
+    private double iterations = 0.0;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -119,6 +121,14 @@ public class TylersTeleop extends OpMode
         double leftRearPower;
         double rightRearPower;
 
+        double currentTime = runtime.milliseconds();
+        iterations += 1;
+        if ((currentTime - previousTime) > 1000){
+            loopsPerSecond = iterations / ((currentTime - previousTime) / 1000.0);
+            previousTime = currentTime;
+            iterations = 0;
+        }
+
         // Choose to drive using either Tank Mode, or POV Mode
         // Comment out the method that's not used.  The default below is POV.
 
@@ -159,6 +169,7 @@ public class TylersTeleop extends OpMode
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("Motors", "leftFront (%.2f), rightFront (%.2f), leftRear (%.2f), rightRear (%.2f)", leftFrontPower, rightFrontPower, leftRearPower, rightRearPower);
+        telemetry.addData("Loop per Seconds", "%.02f lps", loopsPerSecond);
     }
 
     /*
