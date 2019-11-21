@@ -62,7 +62,10 @@ public class TylersTeleop extends OpMode
     private DcMotor leftRearDrive = null;
     private DcMotor rightFrontDrive = null;
     private DcMotor rightRearDrive = null;
-    private Servo   servo = null;
+    private Servo   servoBlock = null;
+    private Servo   servoFoundation1 = null;
+    private Servo   servoFoundation2 = null;
+    private Servo   servoCapstone = null;
     private double previousTime = 0.0;
     private double loopsPerSecond = 0.0;
     private double loops = 0.0;
@@ -82,7 +85,10 @@ public class TylersTeleop extends OpMode
         leftRearDrive  = hardwareMap.get(DcMotor.class, "left_rear_drive");
         rightRearDrive = hardwareMap.get(DcMotor.class, "right_rear_drive");
 
-        servo = hardwareMap.get(Servo.class, "block_servo1");
+        servoBlock = hardwareMap.get(Servo.class, "block_servo0");
+        servoFoundation1 = hardwareMap.get(Servo.class, "foundation_servo1");
+        servoFoundation2 = hardwareMap.get(Servo.class, "foundation_servo2");
+        servoCapstone = hardwareMap.get(Servo.class, "capstone_servo3");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
@@ -133,13 +139,32 @@ public class TylersTeleop extends OpMode
 
         boolean button_y = gamepad1.y;
         boolean button_a = gamepad1.a;
+        boolean button_x = gamepad1.x;
+        boolean button_b = gamepad1.b;
+        boolean button_dpad_up = gamepad1.dpad_up;
+        boolean button_dpad_down = gamepad1.dpad_down;
 
         if (button_y){
-            servo.setPosition(1.0);
+            servoBlock.setPosition(1.0);
         }
 
         if (button_a){
-            servo.setPosition(-1.0);
+            servoBlock.setPosition(-1.0);
+        }
+        if (button_x){
+            servoFoundation1.setPosition(1.0);
+            servoFoundation2.setPosition(-1.0);
+        }
+        if (button_b) {
+            servoFoundation1.setPosition(-1.0);
+            servoFoundation2.setPosition(1.0);
+        }
+        if (button_dpad_up){
+            servoCapstone.setPosition(1.0);
+        }
+
+        if (button_dpad_down){
+            servoCapstone.setPosition(-1.0);
         }
 
         leftFrontPower   = Range.clip(left_y + right_x + left_x, -1.0, 1.0) ;
