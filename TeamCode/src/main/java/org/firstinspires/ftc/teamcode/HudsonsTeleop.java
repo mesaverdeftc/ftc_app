@@ -33,9 +33,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.Servo;
+
 
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
@@ -57,14 +59,18 @@ public class HudsonsTeleop extends OpMode
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime previous_runtime = new ElapsedTime();
     private DcMotor leftFrontDrive = null;
     private DcMotor leftRearDrive = null;
     private DcMotor rightFrontDrive = null;
     private DcMotor rightRearDrive = null;
-    private Servo servo1 = null;
-    private Servo servo2 = null;
-    private Servo servo3 = null;
+    private Servo servoBlock = null;
+    private Servo servoFoundation1 = null;
+    private Servo servoFoundation2 = null;
+    private Servo servoCapstone = null;
     private int interations = 1;
+    private boolean first = true;
+    private int amount;
 
 
     /*
@@ -81,19 +87,22 @@ public class HudsonsTeleop extends OpMode
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         leftRearDrive  = hardwareMap.get(DcMotor.class, "left_rear_drive");
         rightRearDrive = hardwareMap.get(DcMotor.class, "right_rear_drive");
-        servo1 = hardwareMap.get(Servo.class, "block_servo1");
-        servo2 = hardwareMap.get(Servo.class, "block_servo2");
-        servo3 = hardwareMap.get(Servo.class, "block_servo3");
+        servoBlock = hardwareMap.get(Servo.class, "block_servo0");
+        servoFoundation1 = hardwareMap.get(Servo.class, "foundation_servo1");
+        servoFoundation2 = hardwareMap.get(Servo.class, "foundation_servo2");
+        servoCapstone = hardwareMap.get(Servo.class, "capstone_servo3");
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        leftRearDrive.setDirection(DcMotor.Direction.FORWARD);
-        rightRearDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftRearDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightRearDrive.setDirection(DcMotor.Direction.FORWARD);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
+
+        previous_runtime = runtime;
     }
 
     /*
@@ -121,37 +130,54 @@ public class HudsonsTeleop extends OpMode
         double rightFrontPower;
         double leftRearPower;
         double rightRearPower;
-        boolean button_Y;
-        boolean button_A;
-        boolean button_B;
+        boolean button_Y = gamepad1.y;
+        boolean button_A = gamepad1.a;
+        boolean button_B = gamepad1.b;
+        boolean button_X = gamepad1.x;
+        boolean button_dpad_up = gamepad1.dpad_up;
+        boolean button_dpad_down = gamepad1.dpad_down;
 
+        amount += 1;
 
-
-        button_Y = gamepad1.y;
-        button_A = gamepad1.a;
-        button_B = gamepad1.b;
 
 
             if(button_Y) {
-                servo1.setPosition(1.0);
+                servoBlock.setPosition(1.0);
             }
             if(button_A) {
-                servo1.setPosition(-1.0);
+                servoBlock.setPosition(-1.0);
             }
 
             if(button_B) {
+                servoFoundation1.setPosition(-1.0);
+                servoFoundation2.setPosition(1.0);
+            }
+
+            if(button_X) {
+                servoFoundation1.setPosition(1.0);
+                servoFoundation2.setPosition(-1.0);
+            }
+
+           /*if(button_B) {
                 if((interations % 2) == 0) {
-                    servo2.setPosition(1.0);
-                    servo3.setPosition(1.0);
+                    servoFoundation1.setPosition(1.0);
+                    servoFoundation2.setPosition(-1.0);
+                    Thread.sleep(300);
+
                 } else {
-                    servo2.setPosition(-1.0);
-                    servo3.setPosition(-1.0);
+                    servoFoundation1.setPosition(-1.0);
+                    servoFoundation2.setPosition(1.0);
+                    Thread.sleep(300);
                 }
                 interations += 1;
             }
-
-
-
+            */
+            if (button_dpad_up) {
+                servoCapstone.setPosition(1.0);
+            }
+            if(button_dpad_down) {
+                servoCapstone.setPosition(-1.0);
+            }
 
 
         // Choose to drive using either Tank Mode, or POV Mode
@@ -187,6 +213,8 @@ public class HudsonsTeleop extends OpMode
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("Motors", "leftFront (%.2f), rightFront (%.2f), leftRear (%.2f), rightRear (%.2f)", leftFrontPower, rightFrontPower, leftRearPower, rightRearPower);
+
+
     }
 
     /*
@@ -194,6 +222,7 @@ public class HudsonsTeleop extends OpMode
      */
     @Override
     public void stop() {
+
         }
     }
 
