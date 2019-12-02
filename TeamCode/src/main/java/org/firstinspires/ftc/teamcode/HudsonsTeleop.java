@@ -59,7 +59,6 @@ public class HudsonsTeleop extends OpMode
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private ElapsedTime previous_runtime = new ElapsedTime();
     private DcMotor leftFrontDrive = null;
     private DcMotor leftRearDrive = null;
     private DcMotor rightFrontDrive = null;
@@ -68,9 +67,11 @@ public class HudsonsTeleop extends OpMode
     private Servo servoFoundation1 = null;
     private Servo servoFoundation2 = null;
     private Servo servoCapstone = null;
-    private int interations = 1;
+    private int iterations = 1;
     private boolean first = true;
     private int amount;
+    private boolean active = false;
+
 
 
     /*
@@ -79,7 +80,6 @@ public class HudsonsTeleop extends OpMode
     @Override
     public void init() {
         telemetry.addData("Status", "Initialized");
-
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
@@ -94,15 +94,14 @@ public class HudsonsTeleop extends OpMode
 
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
-        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
-        leftRearDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightRearDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        leftRearDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightRearDrive.setDirection(DcMotor.Direction.REVERSE);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
 
-        previous_runtime = runtime;
     }
 
     /*
@@ -148,7 +147,7 @@ public class HudsonsTeleop extends OpMode
                 servoBlock.setPosition(-1.0);
             }
 
-            if(button_B) {
+            /*if(button_B) {
                 servoFoundation1.setPosition(-1.0);
                 servoFoundation2.setPosition(1.0);
             }
@@ -157,21 +156,32 @@ public class HudsonsTeleop extends OpMode
                 servoFoundation1.setPosition(1.0);
                 servoFoundation2.setPosition(-1.0);
             }
-
-           /*if(button_B) {
-                if((interations % 2) == 0) {
-                    servoFoundation1.setPosition(1.0);
-                    servoFoundation2.setPosition(-1.0);
-                    Thread.sleep(300);
-
-                } else {
-                    servoFoundation1.setPosition(-1.0);
-                    servoFoundation2.setPosition(1.0);
-                    Thread.sleep(300);
-                }
-                interations += 1;
-            }
             */
+
+           if(button_B && !active) {
+               active = true;
+               if (iterations % 2 == 0) {
+                   servoFoundation1.setPosition(1.0);
+                   servoFoundation2.setPosition(-1.0);
+                   iterations++;
+               } else {
+                   servoFoundation1.setPosition(-1.0);
+                   servoFoundation2.setPosition(1.0);
+                   iterations++;
+               }
+
+           }
+           else if (!button_B) {
+               active = false;
+           }
+            /*if(button_B) {
+                servoFoundation1.setPosition(-1.0);
+                servoFoundation2.setPosition(-1.0);
+            } else {
+                servoFoundation1.setPosition(1.0);
+                servoFoundation2.setPosition(1.0);
+            }*/
+
             if (button_dpad_up) {
                 servoCapstone.setPosition(1.0);
             }
