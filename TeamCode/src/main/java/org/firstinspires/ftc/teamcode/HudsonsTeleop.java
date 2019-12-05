@@ -67,10 +67,14 @@ public class HudsonsTeleop extends OpMode
     private Servo servoFoundation1 = null;
     private Servo servoFoundation2 = null;
     private Servo servoCapstone = null;
-    private int iterations = 1;
+    private int iterations0 = 1;
+    private int iterations1 = 1;
+    private int iterations2 = 1;
     private boolean first = true;
     private int amount;
-    private boolean active = false;
+    private boolean active0 = false;
+    private boolean active1 = false;
+    private boolean active2 = false;
 
 
 
@@ -129,23 +133,22 @@ public class HudsonsTeleop extends OpMode
         double rightFrontPower;
         double leftRearPower;
         double rightRearPower;
-        boolean button_Y = gamepad1.y;
-        boolean button_A = gamepad1.a;
-        boolean button_B = gamepad1.b;
-        boolean button_X = gamepad1.x;
-        boolean button_dpad_up = gamepad1.dpad_up;
-        boolean button_dpad_down = gamepad1.dpad_down;
+        boolean button_Y = gamepad2.y;
+        boolean button_A = gamepad2.a;
+        boolean button_B = gamepad2.b;
+        boolean button_dpad_up = gamepad2.dpad_up;
+        boolean button_dpad_down = gamepad2.dpad_down;
 
         amount += 1;
 
 
 
-            if(button_Y) {
+            /*if(button_Y) {
                 servoBlock.setPosition(1.0);
             }
             if(button_A) {
                 servoBlock.setPosition(-1.0);
-            }
+            }*/
 
             /*if(button_B) {
                 servoFoundation1.setPosition(-1.0);
@@ -157,24 +160,7 @@ public class HudsonsTeleop extends OpMode
                 servoFoundation2.setPosition(-1.0);
             }
             */
-
-           if(button_B && !active) {
-               active = true;
-               if (iterations % 2 == 0) {
-                   servoFoundation1.setPosition(1.0);
-                   servoFoundation2.setPosition(-1.0);
-                   iterations++;
-               } else {
-                   servoFoundation1.setPosition(-1.0);
-                   servoFoundation2.setPosition(1.0);
-                   iterations++;
-               }
-
-           }
-           else if (!button_B) {
-               active = false;
-           }
-            /*if(button_B) {
+              /*if(button_B) {
                 servoFoundation1.setPosition(-1.0);
                 servoFoundation2.setPosition(-1.0);
             } else {
@@ -182,12 +168,59 @@ public class HudsonsTeleop extends OpMode
                 servoFoundation2.setPosition(1.0);
             }*/
 
-            if (button_dpad_up) {
+            /*if (button_dpad_up) {
                 servoCapstone.setPosition(1.0);
             }
             if(button_dpad_down) {
                 servoCapstone.setPosition(-1.0);
+            }*/
+        if(button_Y && !active0) {
+            active0 = true;
+            if (iterations0 % 2 == 0) {
+                servoBlock.setPosition(1.0);
+                iterations0++;
+            } else {
+                servoBlock.setPosition(-1.0);
+                iterations0++;
             }
+
+        }
+        else if (!button_Y) {
+            active0 = false;
+        }
+
+
+        if(button_B && !active1) {
+            active1 = true;
+            if (iterations1 % 2 == 0) {
+                servoFoundation1.setPosition(1.0);
+                servoFoundation2.setPosition(-1.0);
+                iterations1++;
+            } else {
+                servoFoundation1.setPosition(-1.0);
+                servoFoundation2.setPosition(1.0);
+                iterations1++;
+               }
+
+           }
+           else if (!button_B) {
+               active1 = false;
+           }
+
+        if(button_A && !active2) {
+            active2 = true;
+            if (iterations2 % 2 == 0) {
+                servoCapstone.setPosition(1.0);
+                iterations2++;
+            } else {
+                servoCapstone.setPosition(-1.0);
+                iterations2++;
+            }
+
+        }
+        else if (!button_A) {
+            active2 = false;
+        }
 
 
         // Choose to drive using either Tank Mode, or POV Mode
