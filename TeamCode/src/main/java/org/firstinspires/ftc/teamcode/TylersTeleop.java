@@ -137,12 +137,12 @@ public class TylersTeleop extends OpMode
         double left_y = -gamepad1.left_stick_y;
         double right_x = gamepad1.right_stick_x;
 
-        boolean button_y = gamepad1.y;
-        boolean button_a = gamepad1.a;
-        boolean button_x = gamepad1.x;
-        boolean button_b = gamepad1.b;
-        boolean button_dpad_up = gamepad1.dpad_up;
-        boolean button_dpad_down = gamepad1.dpad_down;
+        boolean button_y = gamepad2.y;
+        boolean button_a = gamepad2.a;
+        boolean button_x = gamepad2.x;
+        boolean button_b = gamepad2.b;
+        boolean button_dpad_up = gamepad2.dpad_up;
+        boolean button_dpad_down = gamepad2.dpad_down;
 
         if (button_y){
             servoBlock.setPosition(1.0);
@@ -186,7 +186,7 @@ public class TylersTeleop extends OpMode
         // Calculate the number of times this method (loop()) get called per second
         double currentTime = runtime.milliseconds();
         loops += 1;
-        if ((currentTime - previousTime) > 1000){
+        if ((currentTime - previousTime) >= 1000){
             loopsPerSecond = loops / ((currentTime - previousTime) / 1000.0);
             previousTime = currentTime;
             loops = 0;
