@@ -33,10 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-<<<<<<< HEAD
 import com.qualcomm.robotcore.hardware.Servo;
-=======
->>>>>>> 8e464ee0aa24bd23c7f3a6c876d4c540d260c80b
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
@@ -69,23 +66,15 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  */
 
 @Autonomous(name="Park Auto", group="Linear Opmode")
-<<<<<<< HEAD
-=======
 //@Disabled
->>>>>>> 8e464ee0aa24bd23c7f3a6c876d4c540d260c80b
 public class ParkAuto extends LinearOpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime     runtime = new ElapsedTime();
-<<<<<<< HEAD
-
-=======
->>>>>>> 8e464ee0aa24bd23c7f3a6c876d4c540d260c80b
     private DcMotor leftFrontDrive = null;
     private DcMotor leftRearDrive = null;
     private DcMotor rightFrontDrive = null;
     private DcMotor rightRearDrive = null;
-<<<<<<< HEAD
     private Servo servoBlock = null;
     private Servo  servoFoundation1 = null;
     private Servo  servoFoundation2 = null;
@@ -111,36 +100,16 @@ public class ParkAuto extends LinearOpMode {
          * Initialize the drive system variables.
          * The init() method of the hardware class does all the work here
          */
-=======
-
-    private static final double     COUNTS_PER_MOTOR_REV    = 1120 ;    // eg: AndyMark NeveRest40 Motor Encoder
-    private static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
-    private static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
-    private static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-                                                              (WHEEL_DIAMETER_INCHES * 3.1415);
-    private static final double     DRIVE_SPEED             = 0.1;
-    private static final double     TURN_SPEED              = 0.5;
-
-    @Override
-    public void runOpMode() {
-
-        // Initialize the hardware variables. Note that the strings used here as parameters
-        // to 'get' must correspond to the names assigned during the robot configuration
-        // step (using the FTC Robot Controller app on the phone).
->>>>>>> 8e464ee0aa24bd23c7f3a6c876d4c540d260c80b
         leftFrontDrive  = hardwareMap.get(DcMotor.class, "left_front_drive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         leftRearDrive  = hardwareMap.get(DcMotor.class, "left_rear_drive");
         rightRearDrive = hardwareMap.get(DcMotor.class, "right_rear_drive");
 
-<<<<<<< HEAD
-=======
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftRearDrive.setDirection(DcMotor.Direction.FORWARD);
         rightRearDrive.setDirection(DcMotor.Direction.REVERSE);
 
->>>>>>> 8e464ee0aa24bd23c7f3a6c876d4c540d260c80b
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Resetting Encoders");    //
         telemetry.update();
@@ -155,7 +124,6 @@ public class ParkAuto extends LinearOpMode {
         leftRearDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightRearDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-<<<<<<< HEAD
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftRearDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -168,20 +136,12 @@ public class ParkAuto extends LinearOpMode {
                           leftRearDrive.getCurrentPosition(),
                           rightRearDrive.getCurrentPosition());
         telemetry.update();*/
-=======
-        // Send telemetry message to indicate successful Encoder reset
-        //telemetry.addData("Path0",  "Starting at %7d :%7d",
-         //                 robot.leftDrive.getCurrentPosition(),
-         //                 robot.rightDrive.getCurrentPosition());
-        //telemetry.update();
->>>>>>> 8e464ee0aa24bd23c7f3a6c876d4c540d260c80b
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-<<<<<<< HEAD
         encoderDrive(DRIVE_SPEED,  12,  12, 5);  // S1: Forward 12 Inches with 5 Sec timeout
 
 
@@ -189,11 +149,6 @@ public class ParkAuto extends LinearOpMode {
         encoderDrive(TURN_SPEED,   12, -12, 4.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
         encoderDrive(DRIVE_SPEED, -24, -24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
         */
-=======
-        encoderDrive(DRIVE_SPEED,  4*3.1415,  4*3.1415, 15.0);  // S1: Forward 47 Inches with 5 Sec timeout
-        //encoderDrive(TURN_SPEED,   12, -12, 4.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
-        //encoderDrive(DRIVE_SPEED, -24, -24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
->>>>>>> 8e464ee0aa24bd23c7f3a6c876d4c540d260c80b
 
         sleep(1000);     // pause for servos to move
 
@@ -209,11 +164,7 @@ public class ParkAuto extends LinearOpMode {
      *  2) Move runs out of time
      *  3) Driver stops the opmode running.
      */
-<<<<<<< HEAD
     public void encoderDrive(double speed,
-=======
-    private void encoderDrive(double speed,
->>>>>>> 8e464ee0aa24bd23c7f3a6c876d4c540d260c80b
                              double leftInches, double rightInches,
                              double timeoutS) {
         int newLeftFrontTarget;
@@ -229,10 +180,7 @@ public class ParkAuto extends LinearOpMode {
             newRightFrontTarget = rightFrontDrive.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
             newLeftRearTarget = leftRearDrive.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
             newRightRearTarget = rightRearDrive.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-<<<<<<< HEAD
 
-=======
->>>>>>> 8e464ee0aa24bd23c7f3a6c876d4c540d260c80b
             leftFrontDrive.setTargetPosition(newLeftFrontTarget);
             rightFrontDrive.setTargetPosition(newRightFrontTarget);
             leftRearDrive.setTargetPosition(newLeftRearTarget);
@@ -260,16 +208,6 @@ public class ParkAuto extends LinearOpMode {
             while (opModeIsActive() &&
                    (runtime.seconds() < timeoutS) &&
                    (leftFrontDrive.isBusy() && rightFrontDrive.isBusy() && leftRearDrive.isBusy() && rightRearDrive.isBusy())) {
-<<<<<<< HEAD
-=======
-
-                // Display it for the driver.
-                telemetry.addData("Path1",  "Running to %7d :%7d", newLeftFrontTarget,  newRightFrontTarget);
-                telemetry.addData("Path2",  "Running at %7d :%7d",
-                        leftFrontDrive.getCurrentPosition(),
-                        rightFrontDrive.getCurrentPosition());
-                telemetry.update();
->>>>>>> 8e464ee0aa24bd23c7f3a6c876d4c540d260c80b
             }
 
             // Stop all motion;
