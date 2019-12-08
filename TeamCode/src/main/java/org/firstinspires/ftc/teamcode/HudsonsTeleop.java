@@ -134,9 +134,7 @@ public class HudsonsTeleop extends OpMode
         double leftRearPower;
         double rightRearPower;
         boolean button_Y = gamepad2.y;
-        boolean button_A = gamepad2.a;
         boolean button_B = gamepad2.b;
-        boolean button_dpad_up = gamepad2.dpad_up;
         boolean button_dpad_down = gamepad2.dpad_down;
 
         amount += 1;
@@ -207,7 +205,23 @@ public class HudsonsTeleop extends OpMode
                active1 = false;
            }
 
-        if(button_A && !active2) {
+        if(button_dpad_down && !active2) {
+            active2 = true;
+            if (iterations2 % 2 == 0) {
+                servoCapstone.setPosition(1.0);
+                iterations2++;
+            } else {
+                servoCapstone.setPosition(-1.0);
+                iterations2++;
+            }
+
+        }
+        else if (!button_dpad_down) {
+            active2 = false;
+        }
+
+
+        /*if(button_A && !active2) {
             active2 = true;
             if (iterations2 % 2 == 0) {
                 servoCapstone.setPosition(1.0);
@@ -220,7 +234,7 @@ public class HudsonsTeleop extends OpMode
         }
         else if (!button_A) {
             active2 = false;
-        }
+        }*/
 
 
         // Choose to drive using either Tank Mode, or POV Mode

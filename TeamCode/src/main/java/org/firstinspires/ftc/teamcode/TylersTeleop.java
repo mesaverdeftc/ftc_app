@@ -53,7 +53,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 
 @TeleOp(name="Tyler's Teleop", group="Iterative Opmode")
-// @Disabled
+@Disabled
 public class TylersTeleop extends OpMode
 {
     // Declare OpMode members.

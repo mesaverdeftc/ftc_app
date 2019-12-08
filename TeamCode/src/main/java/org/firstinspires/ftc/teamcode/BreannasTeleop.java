@@ -29,6 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -52,7 +53,7 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 @TeleOp(name="Breanna's Teleop", group="Iterative Opmode")
-// @Disabled
+@Disabled
 public class BreannasTeleop extends OpMode
 {
     // Declare OpMode members.
